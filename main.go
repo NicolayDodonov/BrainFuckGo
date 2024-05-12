@@ -8,6 +8,8 @@ import (
 func main() {
 	var array [30000]int // Массив
 	var pArray int = 0   // Указатель коретки
+	var stack [10]int
+	var pStack int = 0
 	var pProgram int = 0 // Программный указатель
 	var program []byte   // Массив с символами программы
 	loadFile(&program)
@@ -17,8 +19,14 @@ func main() {
 		switch rune(program[pProgram]) {
 		case '>':
 			pArray++
+			if pArray >= 30000 {
+				pArray = 0
+			}
 		case '<':
 			pArray--
+			if pArray <= 0 {
+				pArray = 29999
+			}
 		case '+':
 			array[pArray]++
 		case '-':
@@ -26,18 +34,17 @@ func main() {
 		case '.':
 			fmt.Print(string(array[pArray]))
 		case ',':
-			array[pArray], _ = fmt.Scan()
+			array[pArray], _ = fmt.Scanln()
 		case '[':
-			fmt.Print('|')
+			stack[pStack] = pProgram
+			pStack++
 		case ']':
-			fmt.Print('|')
-		case 10:
-		case 13:
-			//Игнорируем символы переноса и возврата коретки
+			if array[pArray] != 0 {
+				pProgram = stack[pStack-1]
+			} else {
+				pStack--
+			}
 		default:
-			fmt.Print("\nНеопознанный символ: ")
-			fmt.Println(string(program[pProgram]))
-			panic(-1)
 		}
 		pProgram++
 	}
