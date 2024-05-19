@@ -8,10 +8,13 @@ import (
 func main() {
 	var array [30000]int // Массив
 	var pArray int = 0   // Указатель коретки
+
 	var stack [10]int
 	var pStack int = 0
-	var pProgram int = 0 // Программный указатель
+
 	var program []byte   // Массив с символами программы
+	var pProgram int = 0 // Программный указатель
+
 	loadFile(&program)
 	lengProg := len(string(program))
 
