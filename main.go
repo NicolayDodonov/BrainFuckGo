@@ -36,8 +36,21 @@ func main() {
 		case ',':
 			array[pArray], _ = fmt.Scanln()
 		case '[':
-			stack[pStack] = pProgram
-			pStack++
+			if array[pArray] != 0 {
+				stack[pStack] = pProgram
+				pStack++
+			} else {
+				var b = 1
+				for b > 0 {
+					pProgram++
+					if rune(program[pProgram]) == '[' {
+						b++
+					}
+					if rune(program[pProgram]) == ']' {
+						b--
+					}
+				}
+			}
 		case ']':
 			if array[pArray] != 0 {
 				pProgram = stack[pStack-1]
@@ -48,6 +61,7 @@ func main() {
 		}
 		pProgram++
 	}
+	_, _ = fmt.Scanln()
 }
 
 func loadFile(program *[]byte) {
